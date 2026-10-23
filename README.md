@@ -64,6 +64,8 @@ Never commit `backend/.env`. The app deliberately does not expose either its JWT
 - `POST /api/loans` — bearer token required; `{ "friendName": "Aman", "amount": 1500, "dueDate": "2026-10-20" }`
 - `PATCH /api/loans/:id/repay` — bearer token required
 - `GET /api/summary` — bearer token required
+- `POST /api/loans/:id/receipt` — bearer token required; multipart field `receipt`
+- `GET /api/loans/:id/receipt` — bearer token required; returns the authenticated user's receipt image
 
 Errors use `{ "error": { "code": "…", "message": "…" } }`. Amounts are strings in responses so decimal money values do not lose precision in JavaScript.
 
@@ -77,6 +79,12 @@ Find the laptop's Wi-Fi IPv4 address (for example with `ipconfig` on Windows) an
 
 Tokens are stored with Expo SecureStore rather than plain persistent storage.
 
+## Receipt photos
+
+When adding a loan, choose **Add receipt photo (optional)** to select a JPEG, PNG, or WebP image from the phone. The app creates the loan first, then uploads the selected receipt. The server accepts one image up to 5 MB, stores it under `backend/uploads/`, and records it against that loan. The folder is ignored by Git so personal images are never committed. Receipt retrieval is protected: a user can only access a receipt belonging to their own loan.
+
+This local-disk storage is intentionally suitable for the local interview demo only. A deployed version should use authenticated object storage rather than the backend filesystem.
+
 ## Tests
 
 ```sh
@@ -85,7 +93,7 @@ npm test
 npm run typecheck
 ```
 
-The included tests cover phone/OTP and loan validation plus the overdue rule, including the important fact that a loan due today is not overdue. API integration tests require a configured disposable PostgreSQL database; run the migration before exercising routes with Postman or another HTTP client.
+The included tests cover phone/OTP and loan validation, receipt MIME type/size validation, and the overdue rule, including the important fact that a loan due today is not overdue. API integration tests require a configured disposable PostgreSQL database; run the migration before exercising routes with Postman or another HTTP client.
 
 ## Commands
 

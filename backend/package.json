@@ -14,12 +14,14 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.5.0",
     "pg": "^8.13.3",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/multer": "^2.3.0",
     "@types/node": "^22.13.10",
     "@types/pg": "^8.11.11",
     "supertest": "^7.1.0",
@@ -28,4 +30,3 @@
     "vitest": "^3.0.8"
   }
 }
-

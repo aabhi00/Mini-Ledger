@@ -1,0 +1,2 @@
+ALTER TABLE loans ADD COLUMN IF NOT EXISTS receipt_file_name TEXT;
+ALTER TABLE loans ADD COLUMN IF NOT EXISTS receipt_mime_type VARCHAR(100);
