@@ -1,4 +1,15 @@
 {
-  "expo": { "name": "MiniLedger", "slug": "miniledger", "version": "1.0.0", "orientation": "portrait", "userInterfaceStyle": "light", "android": { "package": "com.miniledger.app" } }
+  "expo": {
+    "name": "MiniLedger",
+    "slug": "miniledger",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.miniledger.app"
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
+  }
 }
-
