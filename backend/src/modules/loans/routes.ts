@@ -3,13 +3,14 @@ import { query } from '../../db/pool';
 import { ApiError } from '../../errors';
 import { type AuthenticatedRequest, requireAuth } from '../../middleware/auth';
 import { loanIdSchema, loanSchema } from './validation';
+import { isOverdue } from './logic';
 
 type LoanRow = { id: string; friend_name: string; amount: string; due_date: string; status: 'outstanding' | 'repaid'; created_at: Date; repaid_at: Date | null };
 const selectLoan = `SELECT id, friend_name, amount::text, due_date::text, status, created_at, repaid_at FROM loans`;
 const returningLoan = 'RETURNING id, friend_name, amount::text, due_date::text, status, created_at, repaid_at';
 function loanResponse(row: LoanRow) {
   const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-  return { id: row.id, friendName: row.friend_name, amount: row.amount, dueDate: row.due_date, status: row.status, createdAt: row.created_at.toISOString(), repaidAt: row.repaid_at?.toISOString() ?? null, isOverdue: row.status === 'outstanding' && row.due_date < today };
+  return { id: row.id, friendName: row.friend_name, amount: row.amount, dueDate: row.due_date, status: row.status, createdAt: row.created_at.toISOString(), repaidAt: row.repaid_at?.toISOString() ?? null, isOverdue: isOverdue(row.status, row.due_date, today) };
 }
 
 const router = Router();
